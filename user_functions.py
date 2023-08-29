@@ -1,6 +1,6 @@
 import re
 from collections import Counter
-import spacy
+# import spacy
 # word2vec = spacy.load('en')
 from nltk import pos_tag
 from nltk.tokenize import word_tokenize
@@ -8,11 +8,17 @@ from nltk.corpus import stopwords
 stop_words = set(stopwords.words("english"))
 
 def preprocess(input_sentence):
-    input_sentence = input_sentence.lower()
+    if isinstance(input_sentence, dict):
+        # Handle dictionary input
+        input_sentence = input_sentence["sentence_str"].lower()
+    else:
+        # Handle other input types
+        input_sentence = input_sentence.lower()
+    
     input_sentence = re.sub(r'[^\w\s]','',input_sentence)
     tokens = word_tokenize(input_sentence)
     input_sentence = [i for i in tokens if not i in stop_words]
-    return(input_sentence)
+    return input_sentence
 
 def compare_overlap(user_message, possible_response):
     similar_words = 0

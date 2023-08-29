@@ -1,9 +1,11 @@
 from collections import Counter
-from responses import data, get_philos_response  # Import the data and the response function
+from responses import data, get_philos_response, blank_spot  # Import the data and the response function
 from user_functions import preprocess, pos_tag, extract_nouns, compare_overlap, compute_similarity
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 import spacy
-# word2vec = spacy.load('en')
 nlp = spacy.load("en_core_web_md")
+
 
 exit_commands = ("quit", "goodbye", "exit", "no")
 
@@ -50,10 +52,14 @@ class PhilosophyChatBot:
     # Find the most relevant response from the data
     best_response = self.find_intent_match(data, user_message)
         
-    response = get_philos_response(entity)  # Generate response based on corpus
+    response = get_philos_response(entity)  # Generate random response based on corpus
     print(response)
     input_message = input("Any other questions?")
     return input_message
+
+# implementing bag of words
+
+
 
 # Initialize PhilosophyChatBot instance below:
 philosophy_bot = PhilosophyChatBot()
